@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -60,7 +59,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
         textViewDate.setText(movie.getReleaseDate());
         textViewNumVotes.setText(String.format("(%s)", movie.getNumVotes()));
         textViewOverview.setText(movie.getOverview());
-        textViewOverview.setMovementMethod(new ScrollingMovementMethod());
 
         float rating = movie.getVoteAverage().floatValue();
         ratingBarScore.setRating(rating / 2.0f);
