@@ -81,6 +81,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 try {
                     JSONArray results = jsonObject.getJSONArray("results");
                     videoId = Movie.getFirstVideoKey(results);
+                    if (!videoId.isEmpty()) {
+                        ImageView playButton = findViewById(R.id.imageViewPlay);
+                        playButton.setImageResource(R.drawable.ic_play_icon);
+                    }
                 } catch (JSONException e) {
                     Log.d("MovieDetailsActivity", "JSON Exception", e);
                 }
