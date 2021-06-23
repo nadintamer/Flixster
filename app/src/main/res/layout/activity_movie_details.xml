@@ -4,36 +4,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".activities.MovieDetailsActivity">
 
     <ImageView
         android:id="@+id/imageViewPoster"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="20dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:scaleType="centerCrop"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/textViewTitle"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageViewPoster"
-        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
-        android:textSize="24dp"
+        android:textSize="30dp"
         android:textStyle="bold"
-        android:textAlignment="center"
         tools:text="Luca" />
+
+    <TextView
+        android:id="@+id/textViewDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewTitle"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="0dp"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        tools:text="Date" />
 
     <RatingBar
         android:id="@+id/ratingBarScore"
         android:numStars="5"
         android:stepSize="0.5"
+        android:progressTint="@color/red"
+        android:progressBackgroundTint="@color/white"
+        android:secondaryProgressTint="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewTitle"
+        android:layout_below="@+id/textViewDate"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp" />
 
@@ -43,7 +60,10 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/ratingBarScore"
-        android:layout_margin="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/white"
         android:text="Luca and his best friend Alberto experience an unforgettable summer on the Italian Riviera. But all the fun is threatened by a deeply-held secret: they are sea monsters from another world just below the water’s surface."
+        android:scrollbars="vertical"
         android:textSize="18dp" />
 </RelativeLayout>
