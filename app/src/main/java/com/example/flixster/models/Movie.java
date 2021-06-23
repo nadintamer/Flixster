@@ -1,5 +1,7 @@
 package com.example.flixster.models;
 
+import android.util.JsonReader;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,6 +18,7 @@ public class Movie {
     String overview;
     String releaseDate;
     Double voteAverage;
+    Integer id;
 
     public Movie() {}
 
@@ -26,6 +29,7 @@ public class Movie {
         overview = jsonObject.getString("overview");
         voteAverage = jsonObject.getDouble("vote_average");
         releaseDate = jsonObject.getString("release_date");
+        id = jsonObject.getInt("id");
     }
 
     public static List<Movie> fromJsonArray(JSONArray movieJsonArray) throws JSONException {
@@ -34,6 +38,15 @@ public class Movie {
             movies.add(new Movie(movieJsonArray.getJSONObject(i)));
         }
         return movies;
+    }
+
+    public static String getFirstVideoKey(JSONArray videoArray) throws JSONException {
+        if (videoArray.length() == 0) return "";
+        JSONObject first = videoArray.getJSONObject(0);
+        if (first.has("key")) {
+            return first.getString("key");
+        }
+        return "";
     }
 
     public String getPosterPath() {
@@ -58,5 +71,9 @@ public class Movie {
 
     public String getReleaseDate() {
         return releaseDate;
+    }
+
+    public Integer getId() {
+        return id;
     }
 }

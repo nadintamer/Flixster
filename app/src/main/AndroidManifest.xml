@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Flixster">
-        <activity android:name=".activities.MovieDetailsActivity"></activity>
+        <activity android:name=".activities.MovieTrailerActivity"/>
+        <activity android:name=".activities.MovieDetailsActivity" />
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

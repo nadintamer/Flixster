@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
-        params.put("api_key", "7636df70552582a3f9c42612d490a38b");
+        params.put("api_key", getString(R.string.moviedb_api_key));
 
         client.get(NOW_PLAYING_URL, params, new JsonHttpResponseHandler() {
             @Override
