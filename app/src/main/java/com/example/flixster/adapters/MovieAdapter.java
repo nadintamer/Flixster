@@ -74,7 +74,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             textViewOverview.setText(movie.getOverview());
             String imageUrl;
             int placeholder;
-            if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            int orientation = context.getResources().getConfiguration().orientation;
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 imageUrl = movie.getBackdropPath();
                 placeholder = R.drawable.flicks_backdrop_placeholder;
             } else {
