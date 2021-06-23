@@ -34,6 +34,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     TextView textViewTitle;
     TextView textViewOverview;
     TextView textViewDate;
+    TextView textViewNumVotes;
     RatingBar ratingBarScore;
     ImageView imageViewPoster;
 
@@ -47,6 +48,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         textViewTitle = findViewById(R.id.textViewTitle);
         textViewOverview = findViewById(R.id.textViewOverview);
         textViewDate = findViewById(R.id.textViewDate);
+        textViewNumVotes = findViewById(R.id.textViewNumVotes);
         ratingBarScore = findViewById(R.id.ratingBarScore);
         imageViewPoster = findViewById(R.id.imageViewPoster);
 
@@ -56,6 +58,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         textViewTitle.setText(movie.getTitle());
         textViewDate.setText(movie.getReleaseDate());
+        textViewNumVotes.setText(String.format("(%s)", movie.getNumVotes()));
         textViewOverview.setText(movie.getOverview());
         textViewOverview.setMovementMethod(new ScrollingMovementMethod());
 

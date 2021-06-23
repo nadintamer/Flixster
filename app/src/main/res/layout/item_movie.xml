@@ -27,6 +27,7 @@
         android:layout_toEndOf="@+id/imageViewPoster"
         android:text=""
         android:textColor="@color/white"
+        android:textStyle="bold"
         android:textSize="24sp"
         tools:text="Luca" />
 
