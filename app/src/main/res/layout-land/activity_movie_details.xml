@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true"> <!--IMPORTANT otherwise backgrnd img. will not fill the whole screen -->
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        tools:context=".activities.MovieDetailsActivity">
+
+        <ImageView
+            android:id="@+id/imageViewPoster"
+            android:layout_width="350dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <ImageView
+            android:id="@+id/imageViewPlay"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignTop="@id/imageViewPoster"
+            android:layout_alignLeft="@id/imageViewPoster"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="125dp"
+            android:alpha="0.7"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/imageViewPoster"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            tools:text="Luca" />
+
+        <TextView
+            android:id="@+id/textViewDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewTitle"
+            android:layout_toEndOf="@id/imageViewPoster"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="0dp"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            tools:text="Date" />
+
+        <RatingBar
+            android:id="@+id/ratingBarScore"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:stepSize="0.5"
+            android:progressTint="@color/red"
+            android:progressBackgroundTint="@color/white"
+            android:secondaryProgressTint="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewDate"
+            android:layout_toEndOf="@id/imageViewPoster"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"/>
+
+        <TextView
+            android:id="@+id/textViewNumVotes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/ratingBarScore"
+            android:layout_marginStart="5dp"
+            android:layout_below="@+id/textViewDate"
+            android:layout_marginTop="25dp"
+            android:textColor="@color/white"
+            android:text="(838)" />
+
+        <TextView
+            android:id="@+id/textViewOverview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/imageViewPoster"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/white"
+            android:text="Luca and his best friend Alberto experience an unforgettable summer on the Italian Riviera. But all the fun is threatened by a deeply-held secret: they are sea monsters from another world just below the water’s surface."
+            android:scrollbars="vertical"
+            android:textSize="18dp" />
+
+    </RelativeLayout>
+</ScrollView>
