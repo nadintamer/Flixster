@@ -56,7 +56,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         Glide.with(this)
                 .load(movie.getBackdropPath())
                 .centerCrop()
-                .transform(new RoundedCorners(radius))
+                //.transform(new RoundedCorners(radius))
                 .placeholder(R.drawable.flicks_backdrop_placeholder)
                 .into(binding.imageViewPoster);
 
