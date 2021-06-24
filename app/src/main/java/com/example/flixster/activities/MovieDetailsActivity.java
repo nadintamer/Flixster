@@ -31,7 +31,6 @@ import okhttp3.Headers;
 public class MovieDetailsActivity extends AppCompatActivity {
 
     Movie movie;
-    String videoId = "";
     ActivityMovieDetailsBinding binding;
 
     public static final String VIDEO_URL = "https://api.themoviedb.org/3/movie/%s/videos";
@@ -74,36 +73,38 @@ public class MovieDetailsActivity extends AppCompatActivity {
         RequestParams params = new RequestParams();
         params.put("api_key", getString(R.string.moviedb_api_key));
 
-        client.get(String.format(VIDEO_URL, movie.getId()), params, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                JSONObject jsonObject = json.jsonObject;
-                try {
-                    JSONArray results = jsonObject.getJSONArray("results");
-                    videoId = Movie.getFirstVideoKey(results);
-                    if (!videoId.isEmpty()) {
-                        ImageView playButton = findViewById(R.id.imageViewPlay);
-                        playButton.setImageResource(R.drawable.ic_play_icon);
+        if (movie.getVideoId().isEmpty()) {
+            client.get(String.format(VIDEO_URL, movie.getId()), params, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Headers headers, JSON json) {
+                    JSONObject jsonObject = json.jsonObject;
+                    try {
+                        JSONArray results = jsonObject.getJSONArray("results");
+                        movie.setVideoId(Movie.getFirstVideoKey(results));
+                        if (!movie.getVideoId().isEmpty()) {
+                            binding.imageViewPlay.setImageResource(R.drawable.ic_play_icon);
+                        }
+                    } catch (JSONException e) {
+                        Log.d("MovieDetailsActivity", "JSON Exception", e);
                     }
-                } catch (JSONException e) {
-                    Log.d("MovieDetailsActivity", "JSON Exception", e);
                 }
-            }
 
-            @Override
-            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.d("MovieDetailsActivity", "onFailure");
-            }
-        });
+                @Override
+                public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                    Log.d("MovieDetailsActivity", "onFailure");
+                }
+            });
+        } else { // videoId has already been fetched
+            binding.imageViewPlay.setImageResource(R.drawable.ic_play_icon);
+        }
 
         binding.imageViewPoster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Video id", videoId);
-                if (videoId.isEmpty()) return;
+                if (movie.getVideoId().isEmpty()) return;
 
                 Intent i = new Intent(MovieDetailsActivity.this, MovieTrailerActivity.class);
-                i.putExtra("videoId", videoId);
+                i.putExtra("videoId", movie.getVideoId());
                 startActivity(i);
             }
         });

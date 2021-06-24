@@ -20,6 +20,7 @@ public class Movie {
     String overview;
     String releaseDate;
     Double voteAverage;
+    String videoId = "";
     Integer id;
     Integer numVotes;
     List<String> genres;
@@ -95,6 +96,14 @@ public class Movie {
 
     public Integer getId() {
         return id;
+    }
+
+    public String getVideoId() {
+        return videoId;
+    }
+
+    public void setVideoId(String id) {
+        videoId = id;
     }
 
     public Integer getNumVotes() { return numVotes; }
