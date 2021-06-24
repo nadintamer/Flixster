@@ -106,7 +106,7 @@ public class Movie {
             Log.d("Movie", releaseDate);
             Date result =  df.parse(releaseDate);
             Log.d("Movie", result.toString());
-            SimpleDateFormat written = new SimpleDateFormat("MMMM dd, yyyy");
+            SimpleDateFormat written = new SimpleDateFormat("MMMM d, yyyy");
             String formattedDate = written.format(result);
             return formattedDate;
         } catch (ParseException e) {
