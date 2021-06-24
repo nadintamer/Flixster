@@ -24,6 +24,17 @@
             tools:srcCompat="@tools:sample/avatars" />
 
         <ImageView
+            android:id="@+id/imageViewGradient"
+            android:src="@drawable/gradient_shape"
+            android:layout_width="350dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <ImageView
             android:id="@+id/imageViewPlay"
             android:layout_width="100dp"
             android:layout_height="100dp"

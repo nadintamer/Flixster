@@ -3,12 +3,16 @@ package com.example.flixster.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.RequestParams;
@@ -53,12 +57,19 @@ public class MovieDetailsActivity extends AppCompatActivity {
         binding.ratingBarScore.setRating(rating / 2.0f);
 
         int radius = 30;
-        Glide.with(this)
+        int orientation = this.getResources().getConfiguration().orientation;
+
+        RequestBuilder<Drawable> img = Glide.with(this)
                 .load(movie.getBackdropPath())
                 .centerCrop()
-                //.transform(new RoundedCorners(radius))
-                .placeholder(R.drawable.flicks_backdrop_placeholder)
-                .into(binding.imageViewPoster);
+                .placeholder(R.drawable.flicks_backdrop_placeholder);
+
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            img.transform(new RoundedCorners(radius))
+                    .into(binding.imageViewPoster);
+        } else {
+            img.into(binding.imageViewPoster);
+        }
 
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
