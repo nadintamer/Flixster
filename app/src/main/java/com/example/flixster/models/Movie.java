@@ -1,13 +1,19 @@
 package com.example.flixster.models;
 
+import android.text.TextUtils;
 import android.util.JsonReader;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcel;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -94,6 +100,21 @@ public class Movie {
         return releaseDate;
     }
 
+    public String getFormattedReleaseDate() {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Log.d("Movie", releaseDate);
+            Date result =  df.parse(releaseDate);
+            Log.d("Movie", result.toString());
+            SimpleDateFormat written = new SimpleDateFormat("MMMM dd, yyyy");
+            String formattedDate = written.format(result);
+            return formattedDate;
+        } catch (ParseException e) {
+            Log.d("Movie", "Error parsing date string", e);
+        }
+        return releaseDate; // return raw date if formatting fails
+    }
+
     public Integer getId() {
         return id;
     }
@@ -109,6 +130,6 @@ public class Movie {
     public Integer getNumVotes() { return numVotes; }
 
     public String getGenreString() {
-        return String.format("Genres: %s", String.join(", ", genres));
+        return String.format("Genres: %s", TextUtils.join(", ", genres));
     }
 }

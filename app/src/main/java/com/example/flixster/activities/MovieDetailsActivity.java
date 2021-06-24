@@ -46,7 +46,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         movie = Parcels.unwrap(getIntent().getParcelableExtra(Movie.class.getSimpleName()));
 
         binding.textViewTitle.setText(movie.getTitle());
-        binding.textViewDate.setText(movie.getReleaseDate());
+        binding.textViewDate.setText(movie.getFormattedReleaseDate());
         binding.textViewNumVotes.setText(String.format("(%s)", movie.getNumVotes()));
         binding.textViewOverview.setText(movie.getOverview());
         binding.textViewGenres.setText(movie.getGenreString());
