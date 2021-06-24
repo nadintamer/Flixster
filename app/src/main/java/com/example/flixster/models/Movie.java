@@ -8,7 +8,9 @@ import org.json.JSONObject;
 import org.parceler.Parcel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Parcel
 public class Movie {
@@ -20,6 +22,8 @@ public class Movie {
     Double voteAverage;
     Integer id;
     Integer numVotes;
+    List<String> genres;
+    static Map<Integer, String> genreMap = new HashMap<Integer, String>();
 
     public Movie() {}
 
@@ -32,6 +36,13 @@ public class Movie {
         releaseDate = jsonObject.getString("release_date");
         id = jsonObject.getInt("id");
         numVotes = jsonObject.getInt("vote_count");
+
+        genres = new ArrayList<>();
+        JSONArray genreIds = jsonObject.getJSONArray("genre_ids");
+        for (int i = 0; i < genreIds.length(); i++) {
+            String genre = genreMap.get(genreIds.get(i));
+            genres.add(genre);
+        }
     }
 
     public static List<Movie> fromJsonArray(JSONArray movieJsonArray) throws JSONException {
@@ -49,6 +60,13 @@ public class Movie {
             return first.getString("key");
         }
         return "";
+    }
+
+    public static void populateGenreMap(JSONArray genreArray) throws JSONException {
+        for (int i = 0; i < genreArray.length(); i++) {
+            JSONObject obj = genreArray.getJSONObject(i);
+            genreMap.put(obj.getInt("id"), obj.getString("name"));
+        }
     }
 
     public String getPosterPath() {
@@ -80,4 +98,8 @@ public class Movie {
     }
 
     public Integer getNumVotes() { return numVotes; }
+
+    public String getGenreString() {
+        return String.format("Genres: %s", String.join(", ", genres));
+    }
 }

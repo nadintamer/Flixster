@@ -50,6 +50,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         binding.textViewDate.setText(movie.getReleaseDate());
         binding.textViewNumVotes.setText(String.format("(%s)", movie.getNumVotes()));
         binding.textViewOverview.setText(movie.getOverview());
+        binding.textViewGenres.setText(movie.getGenreString());
 
         float rating = movie.getVoteAverage().floatValue();
         binding.ratingBarScore.setRating(rating / 2.0f);

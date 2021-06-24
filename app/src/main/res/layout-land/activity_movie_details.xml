@@ -109,5 +109,17 @@
             android:scrollbars="vertical"
             android:textSize="18dp" />
 
+        <TextView
+            android:id="@+id/textViewGenres"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ratingBarScore"
+            android:layout_toEndOf="@id/imageViewPoster"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/light_grey"
+            tools:text="Genres: Children's, Animation" />
+
     </RelativeLayout>
 </ScrollView>

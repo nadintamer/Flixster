@@ -29,10 +29,12 @@ import okhttp3.Headers;
 public class MainActivity extends AppCompatActivity {
 
     public static final String NOW_PLAYING_URL = "https://api.themoviedb.org/3/movie/now_playing";
+    public static final String GENRES_URL = "https://api.themoviedb.org/3/genre/movie/list";
     public static final String TAG = "MainActivity";
 
     List<Movie> movies;
     ActivityMainBinding binding;
+    MovieAdapter movieAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +46,40 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
 
         movies = new ArrayList<>();
-        MovieAdapter movieAdapter = new MovieAdapter(this, movies);
+        movieAdapter = new MovieAdapter(this, movies);
 
         binding.recyclerViewMovies.setAdapter(movieAdapter);
         binding.recyclerViewMovies.setLayoutManager(new LinearLayoutManager(this));
 
+        fetchMovies();
+        fetchGenres();
+    }
+
+    void fetchGenres() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("api_key", getString(R.string.moviedb_api_key));
+
+        client.get(GENRES_URL, params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                JSONObject jsonObject = json.jsonObject;
+                try {
+                    JSONArray genreArray = jsonObject.getJSONArray("genres");
+                    Movie.populateGenreMap(genreArray);
+                } catch (JSONException e) {
+                    Log.d(TAG, "JSON Exception", e);
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.d("MainActivity", "onFailure");
+            }
+        });
+    }
+
+    void fetchMovies() {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("api_key", getString(R.string.moviedb_api_key));
