@@ -3,6 +3,7 @@ package com.example.flixster.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.example.flixster.R;
 import com.example.flixster.adapters.MovieAdapter;
 import com.example.flixster.databinding.ActivityMainBinding;
 import com.example.flixster.models.Movie;
+import androidx.appcompat.widget.Toolbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         View view = binding.getRoot();
         setContentView(view);
+        setSupportActionBar(binding.toolbar);
 
         movies = new ArrayList<>();
         MovieAdapter movieAdapter = new MovieAdapter(this, movies);

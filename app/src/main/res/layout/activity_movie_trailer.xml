@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.MovieTrailerActivity"
-    android:background="@color/darkgrey">
+    android:background="@color/dark_grey">
 
     <com.google.android.youtube.player.YouTubePlayerView
         android:id="@+id/playerView"
