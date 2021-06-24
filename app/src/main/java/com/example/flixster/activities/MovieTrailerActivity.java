@@ -1,27 +1,30 @@
 package com.example.flixster.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.example.flixster.R;
+import com.example.flixster.databinding.ActivityMovieTrailerBinding;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerView;
 
 public class MovieTrailerActivity extends YouTubeBaseActivity {
+
+    ActivityMovieTrailerBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie_trailer);
+        binding = ActivityMovieTrailerBinding.inflate(getLayoutInflater());
+
+        // layout of activity is stored in a special property called root
+        View view = binding.getRoot();
+        setContentView(view);
 
         final String videoId = getIntent().getStringExtra("videoId");
-        YouTubePlayerView playerView = findViewById(R.id.player);
-
-        playerView.initialize(getString(R.string.youtube_api_key), new YouTubePlayer.OnInitializedListener() {
+        binding.playerView.initialize(getString(R.string.youtube_api_key), new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider,
                                                 YouTubePlayer youTubePlayer, boolean b) {

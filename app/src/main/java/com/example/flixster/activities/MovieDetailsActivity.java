@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -16,6 +14,7 @@ import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.RequestParams;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.flixster.R;
+import com.example.flixster.databinding.ActivityMovieDetailsBinding;
 import com.example.flixster.models.Movie;
 
 import org.json.JSONArray;
@@ -29,39 +28,29 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     Movie movie;
     String videoId = "";
-
-    TextView textViewTitle;
-    TextView textViewOverview;
-    TextView textViewDate;
-    TextView textViewNumVotes;
-    RatingBar ratingBarScore;
-    ImageView imageViewPoster;
+    ActivityMovieDetailsBinding binding;
 
     public static final String VIDEO_URL = "https://api.themoviedb.org/3/movie/%s/videos";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie_details);
+        binding = ActivityMovieDetailsBinding.inflate(getLayoutInflater());
 
-        textViewTitle = findViewById(R.id.textViewTitle);
-        textViewOverview = findViewById(R.id.textViewOverview);
-        textViewDate = findViewById(R.id.textViewDate);
-        textViewNumVotes = findViewById(R.id.textViewNumVotes);
-        ratingBarScore = findViewById(R.id.ratingBarScore);
-        imageViewPoster = findViewById(R.id.imageViewPoster);
+        View view = binding.getRoot();
+        setContentView(view);
 
         movie = Parcels.unwrap(getIntent().getParcelableExtra(Movie.class.getSimpleName()));
 
         getSupportActionBar().setTitle(movie.getTitle());
 
-        textViewTitle.setText(movie.getTitle());
-        textViewDate.setText(movie.getReleaseDate());
-        textViewNumVotes.setText(String.format("(%s)", movie.getNumVotes()));
-        textViewOverview.setText(movie.getOverview());
+        binding.textViewTitle.setText(movie.getTitle());
+        binding.textViewDate.setText(movie.getReleaseDate());
+        binding.textViewNumVotes.setText(String.format("(%s)", movie.getNumVotes()));
+        binding.textViewOverview.setText(movie.getOverview());
 
         float rating = movie.getVoteAverage().floatValue();
-        ratingBarScore.setRating(rating / 2.0f);
+        binding.ratingBarScore.setRating(rating / 2.0f);
 
         int radius = 30;
         Glide.with(this)
@@ -69,7 +58,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 .centerCrop()
                 .transform(new RoundedCorners(radius))
                 .placeholder(R.drawable.flicks_backdrop_placeholder)
-                .into(imageViewPoster);
+                .into(binding.imageViewPoster);
 
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
@@ -97,7 +86,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
             }
         });
 
-        imageViewPoster.setOnClickListener(new View.OnClickListener() {
+        binding.imageViewPoster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("Video id", videoId);

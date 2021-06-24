@@ -2,16 +2,17 @@ package com.example.flixster.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.RequestParams;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.flixster.R;
 import com.example.flixster.adapters.MovieAdapter;
+import com.example.flixster.databinding.ActivityMainBinding;
 import com.example.flixster.models.Movie;
 
 import org.json.JSONArray;
@@ -29,19 +30,21 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
 
     List<Movie> movies;
+    ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
 
-        RecyclerView recyclerViewMovies = findViewById(R.id.recyclerViewMovies);
+        View view = binding.getRoot();
+        setContentView(view);
 
         movies = new ArrayList<>();
         MovieAdapter movieAdapter = new MovieAdapter(this, movies);
 
-        recyclerViewMovies.setAdapter(movieAdapter);
-        recyclerViewMovies.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerViewMovies.setAdapter(movieAdapter);
+        binding.recyclerViewMovies.setLayoutManager(new LinearLayoutManager(this));
 
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
