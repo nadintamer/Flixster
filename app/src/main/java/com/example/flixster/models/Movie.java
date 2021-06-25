@@ -3,11 +3,6 @@ package com.example.flixster.models;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.codepath.asynchttpclient.AsyncHttpClient;
-import com.codepath.asynchttpclient.RequestParams;
-import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
-import com.example.flixster.R;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,9 +31,12 @@ public class Movie {
     Integer id;
     Integer numVotes;
     List<String> genres;
+    List<String> cast;
     Boolean isFavorite;
     static Map<Integer, String> genreMap = new HashMap<>();
     static ArrayList<String> favorites = new ArrayList<>();
+
+    public static final int REDUCED_CAST_COUNT = 4;
 
     public Movie() {}
 
@@ -52,6 +50,7 @@ public class Movie {
         releaseDate = jsonObject.getString("release_date");
         id = jsonObject.getInt("id");
         numVotes = jsonObject.getInt("vote_count");
+        cast = new ArrayList<>();
 
         // Convert genre IDs into String representations
         genres = new ArrayList<>();
@@ -95,6 +94,13 @@ public class Movie {
         for (int i = 0; i < genreArray.length(); i++) {
             JSONObject obj = genreArray.getJSONObject(i);
             genreMap.put(obj.getInt("id"), obj.getString("name"));
+        }
+    }
+
+    public void addCast(JSONArray castArray) throws JSONException {
+        for (int i = 0; i < REDUCED_CAST_COUNT; i++) {
+            JSONObject obj = castArray.getJSONObject(i);
+            cast.add(obj.getString("name"));
         }
     }
 
@@ -151,6 +157,10 @@ public class Movie {
 
     public String getGenreString() {
         return String.format("Genres: %s", TextUtils.join(", ", genres));
+    }
+
+    public String getCastString() {
+        return String.format("Cast: %s, and more", TextUtils.join(", ", cast));
     }
 
     public Boolean getIsFavorite() {

@@ -52,6 +52,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         binding.textViewNumVotes.setText(String.format("(%s)", movie.getNumVotes()));
         binding.textViewOverview.setText(movie.getOverview());
         binding.textViewGenres.setText(movie.getGenreString());
+        binding.textViewCast.setText(movie.getCastString());
 
         if (movie.getIsFavorite()) {
             binding.buttonFavorite.setImageResource(R.drawable.ic_heart_filled);

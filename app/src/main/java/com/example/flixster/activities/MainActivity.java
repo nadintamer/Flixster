@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String NOW_PLAYING_URL = "https://api.themoviedb.org/3/movie/now_playing";
     public static final String GENRES_URL = "https://api.themoviedb.org/3/genre/movie/list";
+    public static final String CREDITS_URL = "https://api.themoviedb.org/3/movie/%d/credits";
     public static final String TAG = "MainActivity";
 
     List<Movie> movies;
@@ -107,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
                     JSONArray results = jsonObject.getJSONArray("results");
                     movies.addAll(Movie.fromJsonArray(results));
                     movieAdapter.notifyDataSetChanged();
+                    fetchAllCasts(); // fetch cast for each movie
                 } catch (JSONException e) {
                     Log.d(TAG, "JSON Exception", e);
                 }
@@ -114,7 +116,39 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.d("MainActivity", "onFailure");
+                Log.d(TAG, "onFailure");
+            }
+        });
+    }
+
+    void fetchAllCasts() {
+        for (int i = 0; i < movies.size(); i++) {
+            Movie movie = movies.get(i);
+            fetchCast(movie, i);
+        }
+    }
+
+    void fetchCast(Movie movie, int position) {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("api_key", getString(R.string.moviedb_api_key));
+
+        client.get(String.format(CREDITS_URL, movie.getId()), params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                JSONObject jsonObject = json.jsonObject;
+                try {
+                    JSONArray castArray = jsonObject.getJSONArray("cast");
+                    movie.addCast(castArray);
+                    movieAdapter.notifyItemChanged(position);
+                } catch (JSONException e) {
+                    Log.d("Movie", "JSON Exception", e);
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.d("Movie", "onFailure");
             }
         });
     }
@@ -155,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             Movie.setFavorites(new ArrayList<>(FileUtils.readLines(getDataFile(), Charset.defaultCharset())));
         } catch (IOException e) {
-            Log.e("MainActivity", "Error reading favorites", e);
+            Log.e(TAG, "Error reading favorites", e);
             Movie.setFavorites(new ArrayList<>());
         }
     }
@@ -164,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             FileUtils.writeLines(getDataFile(), Movie.getFavorites());
         } catch (IOException e) {
-            Log.e("MainActivity", "Error writing favorites", e);
+            Log.e(TAG, "Error writing favorites", e);
         }
     }
 }

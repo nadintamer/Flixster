@@ -128,9 +128,23 @@
             android:layout_toEndOf="@id/imageViewPoster"
             android:layout_marginHorizontal="20dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:textColor="@color/light_grey"
             tools:text="Genres: Children's, Animation" />
+
+        <TextView
+            android:id="@+id/textViewCast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewGenres"
+            android:layout_toEndOf="@id/imageViewPoster"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textColor="@color/light_grey"
+            tools:text="Cast: Helena Bonham Carter, Brad Pitt, Zach Grenier, Edward Norton, Meat Loaf, and more" />
 
     </RelativeLayout>
 </ScrollView>
