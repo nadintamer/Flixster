@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import org.apache.commons.io.FileUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -24,6 +25,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
         setSupportActionBar(binding.toolbar);
+
+        loadFavorites();
 
         if (savedInstanceState != null) {
             movies = Parcels.unwrap(savedInstanceState.getParcelable("movieData"));
@@ -118,14 +124,43 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 20 && resultCode == RESULT_OK) {
             Integer position = data.getExtras().getInt("position");
             Movie newMovie = Parcels.unwrap(data.getParcelableExtra(Movie.class.getSimpleName()));
+            String title = newMovie.getTitle();
+            if (newMovie.getIsFavorite()) {
+                Movie.addToFavorites(title);
+            } else {
+                Movie.removeFromFavorites(title);
+            }
+            saveFavorites();
             movies.set(position, newMovie);
             movieAdapter.notifyItemChanged(position);
         }
     }
 
+    // TODO: give credit from stackoverflow for this function
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable("movieData", Parcels.wrap(movies));
+    }
+
+    private File getDataFile() {
+        return new File(getFilesDir(), "favorites.txt");
+    }
+
+    private void loadFavorites() {
+        try {
+            Movie.setFavorites(new ArrayList<>(FileUtils.readLines(getDataFile(), Charset.defaultCharset())));
+        } catch (IOException e) {
+            Log.e("MainActivity", "Error reading favorites", e);
+            Movie.setFavorites(new ArrayList<>());
+        }
+    }
+
+    private void saveFavorites() {
+        try {
+            FileUtils.writeLines(getDataFile(), Movie.getFavorites());
+        } catch (IOException e) {
+            Log.e("MainActivity", "Error writing favorites", e);
+        }
     }
 }

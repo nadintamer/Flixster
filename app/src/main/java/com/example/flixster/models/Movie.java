@@ -31,6 +31,7 @@ public class Movie {
     List<String> genres;
     Boolean isFavorite;
     static Map<Integer, String> genreMap = new HashMap<>();
+    static ArrayList<String> favorites = new ArrayList<>();
 
     public Movie() {}
 
@@ -51,7 +52,7 @@ public class Movie {
             genres.add(genre);
         }
 
-        isFavorite = false;
+        isFavorite = favorites.contains(title);
     }
 
     public static List<Movie> fromJsonArray(JSONArray movieJsonArray) throws JSONException {
@@ -140,5 +141,22 @@ public class Movie {
 
     public Boolean getIsFavorite() {
         return isFavorite;
+    }
+
+    public static void setFavorites(ArrayList<String> newFavorites) {
+        favorites = newFavorites;
+    }
+
+    public static ArrayList<String> getFavorites() {
+        return favorites;
+    }
+
+    public static void addToFavorites(String title) {
+        favorites.add(title);
+    }
+
+    public static void removeFromFavorites(String title) {
+        if (!favorites.contains(title)) return;
+        favorites.remove(title);
     }
 }

@@ -49,4 +49,5 @@ dependencies {
     annotationProcessor 'org.parceler:parceler:1.1.12'
     implementation 'jp.wasabeef:glide-transformations:4.1.0'
     implementation 'jp.co.cyberagent.android:gpuimage:2.0.4'
+    implementation 'commons-io:commons-io:2.6'
 }
