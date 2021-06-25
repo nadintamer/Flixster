@@ -176,6 +176,7 @@ public class Movie {
     }
 
     public static void addToFavorites(String title) {
+        if (favorites.contains(title)) return; // shouldn't be possible to add more than once
         favorites.add(title);
     }
 
