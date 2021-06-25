@@ -27,7 +27,7 @@ The following **stretch** features are implemented:
 The following **additional** features are implemented:
 
 * [X] Video trailers can be played from the movies list when in landscape mode
-* [X] User can mark movies as favorites
+* [X] User can mark movies as favorites (but they don't persist after app restart)
 * [X] User can view additional information about the movie like release date, genres, and number of votes
 
 ## Video Walkthrough
