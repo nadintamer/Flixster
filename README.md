@@ -2,7 +2,7 @@
 
 **Flixster** shows the latest movies currently playing in theaters. The app utilizes the Movie Database API to display images and basic information about these movies to the user.
 
-Time spent: **12** hours spent in total
+Time spent: **13** hours spent in total
 
 ## User Stories
 
@@ -27,14 +27,14 @@ The following **stretch** features are implemented:
 The following **additional** features are implemented:
 
 * [X] Video trailers can be played from the movies list when in landscape mode
-* [X] User can mark movies as favorites (but they don't persist after app restart)
+* [X] User can mark movies as favorites, and they persist after app restart
 * [X] User can view additional information about the movie like release date, genres, and number of votes
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-<img src='https://i.imgur.com/N0msS9t.gif' title='Flixster Portrait Walkthrough' width='' alt='Flixster Portrait Walkthrough' />
+<img src='https://i.imgur.com/arl8Jc7.gif' title='Flixster Portrait Walkthrough' width='' alt='Flixster Portrait Walkthrough' />
 <img src='https://i.imgur.com/TkptWAK.gif' title='Flixster Landscape Walkthrough' width='' alt='Flixster Landscape Walkthrough' />
 
 GIF created with [LICEcap](https://www.cockos.com/licecap/).
