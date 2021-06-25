@@ -24,7 +24,7 @@ The following **stretch** features are implemented:
 
 The following **additional** features are implemented:
 
-* [ ] List anything else that you can get done to improve the app functionality!
+* [X] Video trailers can be played from the movies list when in landscape mode.
 
 ## Video Walkthrough
 
