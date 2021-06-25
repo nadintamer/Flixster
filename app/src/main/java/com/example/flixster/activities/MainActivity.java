@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import org.apache.commons.io.FileUtils;
 import android.util.Log;
@@ -18,8 +17,8 @@ import com.example.flixster.R;
 import com.example.flixster.adapters.MovieAdapter;
 import com.example.flixster.databinding.ActivityMainBinding;
 import com.example.flixster.models.Movie;
-import androidx.appcompat.widget.Toolbar;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         loadFavorites();
         fetchGenres();
 
+        // Check if movie state has already been saved, otherwise fetch movies from API
         if (savedInstanceState != null) {
             movies = Parcels.unwrap(savedInstanceState.getParcelable("movieData"));
         } else {
@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         binding.recyclerViewMovies.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    // Fetch list of movie genres from API and populate genre map
     void fetchGenres() {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
@@ -92,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // Fetch list of currently playing movies from API
     void fetchMovies() {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
@@ -117,11 +119,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // When returning from movie details view, update data with new favorite status
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 20 && resultCode == RESULT_OK) {
-            Integer position = data.getExtras().getInt("position");
+            int position = data.getExtras().getInt("position");
             Movie newMovie = Parcels.unwrap(data.getParcelableExtra(Movie.class.getSimpleName()));
             String title = newMovie.getTitle();
             if (newMovie.getIsFavorite()) {
@@ -135,13 +138,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // TODO: give credit from stackoverflow for this function
+    // Code for this function was adapted from: https://stackoverflow.com/questions/44581911/saving-recyclerview-list-state
+    // Save movie state so that it persists between orientation changes
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NotNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable("movieData", Parcels.wrap(movies));
     }
 
+    // Code to save list of favorites so that they persist after app restart
     private File getDataFile() {
         return new File(getFilesDir(), "favorites.txt");
     }

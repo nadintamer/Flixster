@@ -85,6 +85,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         public void bind(Movie movie) {
             textViewTitle.setText(movie.getTitle());
             textViewOverview.setText(movie.getOverview());
+
+            // Determine if image should be poster or backdrop, depending on orientation
             String imageUrl;
             int placeholder;
             int orientation = context.getResources().getConfiguration().orientation;
@@ -96,6 +98,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                 placeholder = R.drawable.flicks_movie_placeholder;
             }
 
+            // Show heart icon if movie is favorited
             if (movie.getIsFavorite()) {
                 imageViewFavorite.setVisibility(View.VISIBLE);
             } else {
@@ -110,11 +113,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                     .placeholder(placeholder)
                     .into(imageViewPoster);
 
+            // If in landscape mode, fetch video ID to set up YouTube player
             if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 AsyncHttpClient client = new AsyncHttpClient();
                 RequestParams params = new RequestParams();
                 params.put("api_key", context.getResources().getString(R.string.moviedb_api_key));
 
+                // Only request from API if we haven't previously fetched the video ID
                 if (movie.getVideoId().isEmpty()) {
                     client.get(String.format(VIDEO_URL, movie.getId()), params, new JsonHttpResponseHandler() {
                         @Override
@@ -139,9 +144,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                 } else { // videoId has already been fetched
                     imageViewPlay.setImageResource(R.drawable.ic_play_icon);
                 }
-            }
 
-            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 imageViewPoster.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

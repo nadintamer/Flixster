@@ -8,11 +8,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
-import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.RequestParams;
@@ -44,15 +42,24 @@ public class MovieDetailsActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
+        // Get movie information from intent
         movie = Parcels.unwrap(getIntent().getParcelableExtra(Movie.class.getSimpleName()));
         position = getIntent().getExtras().getInt("position");
 
+        // Set up interface to display movie information
         binding.textViewTitle.setText(movie.getTitle());
         binding.textViewDate.setText(movie.getFormattedReleaseDate());
         binding.textViewNumVotes.setText(String.format("(%s)", movie.getNumVotes()));
         binding.textViewOverview.setText(movie.getOverview());
         binding.textViewGenres.setText(movie.getGenreString());
-        binding.buttonFavorite.setTag("empty");
+
+        if (movie.getIsFavorite()) {
+            binding.buttonFavorite.setImageResource(R.drawable.ic_heart_filled);
+            binding.buttonFavorite.setTag("filled");
+        } else {
+            binding.buttonFavorite.setImageResource(R.drawable.ic_heart_empty);
+            binding.buttonFavorite.setTag("empty");
+        }
 
         float rating = movie.getVoteAverage().floatValue();
         binding.ratingBarScore.setRating(rating / 2.0f);
@@ -72,6 +79,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
             img.into(binding.imageViewPoster);
         }
 
+        // Fetch video ID to set up YouTube player
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("api_key", getString(R.string.moviedb_api_key));
@@ -101,6 +109,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
             binding.imageViewPlay.setImageResource(R.drawable.ic_play_icon);
         }
 
+        // Play video trailer when poster is clicked
         binding.imageViewPoster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,19 +131,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (movie.getIsFavorite()) {
-            binding.buttonFavorite.setImageResource(R.drawable.ic_heart_filled);
-            binding.buttonFavorite.setTag("filled");
-        } else {
-            binding.buttonFavorite.setImageResource(R.drawable.ic_heart_empty);
-            binding.buttonFavorite.setTag("empty");
-        }
-    }
-
-    @Override
     public void onBackPressed() {
         Intent intent = new Intent();
         intent.putExtra(Movie.class.getSimpleName(), Parcels.wrap(movie));
@@ -143,6 +139,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         finish();
     }
 
+    // Toggles favorite between empty and filled heart image
     void toggleFavoriteButton() {
         if (binding.buttonFavorite.getTag() == "filled") {
             binding.buttonFavorite.setImageResource(R.drawable.ic_heart_empty);

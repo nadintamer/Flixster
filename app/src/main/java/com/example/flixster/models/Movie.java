@@ -3,6 +3,11 @@ package com.example.flixster.models;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.codepath.asynchttpclient.AsyncHttpClient;
+import com.codepath.asynchttpclient.RequestParams;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.flixster.R;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,6 +21,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.Headers;
 
 @Parcel
 public class Movie {
@@ -35,6 +42,7 @@ public class Movie {
 
     public Movie() {}
 
+    // Constructs a Movie object from a JSONObject
     public Movie(JSONObject jsonObject) throws JSONException {
         posterPath = jsonObject.getString("poster_path");
         backdropPath = jsonObject.getString("backdrop_path");
@@ -45,6 +53,7 @@ public class Movie {
         id = jsonObject.getInt("id");
         numVotes = jsonObject.getInt("vote_count");
 
+        // Convert genre IDs into String representations
         genres = new ArrayList<>();
         JSONArray genreIds = jsonObject.getJSONArray("genre_ids");
         for (int i = 0; i < genreIds.length(); i++) {
@@ -52,9 +61,11 @@ public class Movie {
             genres.add(genre);
         }
 
+        // Check if this movie was previously marked as a favorite
         isFavorite = favorites.contains(title);
     }
 
+    // Constructs a list of Movie objects given a JSONArray
     public static List<Movie> fromJsonArray(JSONArray movieJsonArray) throws JSONException {
         List<Movie> movies = new ArrayList<>();
         for (int i = 0; i < movieJsonArray.length(); i++) {
@@ -63,11 +74,12 @@ public class Movie {
         return movies;
     }
 
+    // Returns the key for the first video that is hosted on YouTube, if any
     public static String getFirstVideoKey(JSONArray videoArray) throws JSONException {
         if (videoArray.length() == 0) return "";
         for (int i = 0; i < videoArray.length(); i++) {
             JSONObject obj = videoArray.getJSONObject(i);
-            // ignore videos from sites that aren't YouTube since they won't work with player
+            // Ignore videos from sites that aren't YouTube since they won't work with player
             if (obj.has("site") && !obj.getString("site").equals("YouTube")) {
                 continue;
             }
@@ -78,6 +90,7 @@ public class Movie {
         return "";
     }
 
+    // Populates the genre map with IDs and their string representations
     public static void populateGenreMap(JSONArray genreArray) throws JSONException {
         for (int i = 0; i < genreArray.length(); i++) {
             JSONObject obj = genreArray.getJSONObject(i);
@@ -109,6 +122,7 @@ public class Movie {
         return overview;
     }
 
+    // Formats the movie release date to be more readable, e.g. 2021-06-17 becomes June 17, 2021
     public String getFormattedReleaseDate() {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         try {

@@ -19,7 +19,6 @@ public class MovieTrailerActivity extends YouTubeBaseActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMovieTrailerBinding.inflate(getLayoutInflater());
 
-        // layout of activity is stored in a special property called root
         View view = binding.getRoot();
         setContentView(view);
 
@@ -34,7 +33,6 @@ public class MovieTrailerActivity extends YouTubeBaseActivity {
             @Override
             public void onInitializationFailure(YouTubePlayer.Provider provider,
                                                 YouTubeInitializationResult youTubeInitializationResult) {
-                // log the error
                 Log.e("MovieTrailerActivity", "Error initializing YouTube player");
             }
         });
