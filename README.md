@@ -28,6 +28,7 @@ The following **additional** features are implemented:
 
 * [X] Video trailers can be played from the movies list when in landscape mode
 * [X] User can mark movies as favorites, and they persist after app restart
+* [X] Movies marked as favorites appear at the beginning of the list
 * [X] User can view additional information about the movie like release date, genres, cast, and number of votes
 
 ## Video Walkthrough
