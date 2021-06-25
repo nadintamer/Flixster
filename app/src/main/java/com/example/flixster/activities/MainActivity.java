@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
 
         loadFavorites();
+        fetchGenres();
 
         if (savedInstanceState != null) {
             movies = Parcels.unwrap(savedInstanceState.getParcelable("movieData"));
@@ -65,8 +66,6 @@ public class MainActivity extends AppCompatActivity {
 
         binding.recyclerViewMovies.setAdapter(movieAdapter);
         binding.recyclerViewMovies.setLayoutManager(new LinearLayoutManager(this));
-
-        fetchGenres();
     }
 
     void fetchGenres() {
