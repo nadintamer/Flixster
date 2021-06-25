@@ -1,7 +1,6 @@
 package com.example.flixster.models;
 
 import android.text.TextUtils;
-import android.util.JsonReader;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -30,7 +29,7 @@ public class Movie {
     Integer id;
     Integer numVotes;
     List<String> genres;
-    static Map<Integer, String> genreMap = new HashMap<Integer, String>();
+    static Map<Integer, String> genreMap = new HashMap<>();
 
     public Movie() {}
 
@@ -62,9 +61,15 @@ public class Movie {
 
     public static String getFirstVideoKey(JSONArray videoArray) throws JSONException {
         if (videoArray.length() == 0) return "";
-        JSONObject first = videoArray.getJSONObject(0);
-        if (first.has("key")) {
-            return first.getString("key");
+        for (int i = 0; i < videoArray.length(); i++) {
+            JSONObject obj = videoArray.getJSONObject(i);
+            // ignore videos from sites that aren't YouTube since they won't work with player
+            if (obj.has("site") && !obj.getString("site").equals("YouTube")) {
+                continue;
+            }
+            if (obj.has("key")) {
+                return obj.getString("key");
+            }
         }
         return "";
     }
@@ -96,10 +101,6 @@ public class Movie {
         return overview;
     }
 
-    public String getReleaseDate() {
-        return releaseDate;
-    }
-
     public String getFormattedReleaseDate() {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         try {
@@ -107,8 +108,7 @@ public class Movie {
             Date result =  df.parse(releaseDate);
             Log.d("Movie", result.toString());
             SimpleDateFormat written = new SimpleDateFormat("MMMM d, yyyy");
-            String formattedDate = written.format(result);
-            return formattedDate;
+            return written.format(result);
         } catch (ParseException e) {
             Log.d("Movie", "Error parsing date string", e);
         }
