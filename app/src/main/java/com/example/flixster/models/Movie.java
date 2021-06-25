@@ -20,7 +20,7 @@ import java.util.Map;
 import okhttp3.Headers;
 
 @Parcel
-public class Movie {
+public class Movie implements Comparable<Movie> {
     String posterPath;
     String backdropPath;
     String title;
@@ -183,5 +183,13 @@ public class Movie {
     public static void removeFromFavorites(String title) {
         if (!favorites.contains(title)) return;
         favorites.remove(title);
+    }
+
+    @Override
+    public int compareTo(Movie m) {
+        if (this.getIsFavorite() == m.getIsFavorite()) return 0;
+        if (this.getIsFavorite() && !m.getIsFavorite()) return -1;
+        if (!this.getIsFavorite() && m.getIsFavorite()) return 1;
+        return 0;
     }
 }

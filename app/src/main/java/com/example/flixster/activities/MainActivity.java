@@ -26,8 +26,13 @@ import org.parceler.Parcels;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import okhttp3.Headers;
@@ -168,7 +173,8 @@ public class MainActivity extends AppCompatActivity {
             }
             saveFavorites();
             movies.set(position, newMovie);
-            movieAdapter.notifyItemChanged(position);
+            Collections.sort(movies);
+            movieAdapter.notifyDataSetChanged();
         }
     }
 
