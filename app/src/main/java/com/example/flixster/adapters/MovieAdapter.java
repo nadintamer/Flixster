@@ -141,16 +141,18 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                 }
             }
 
-            imageViewPoster.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (movie.getVideoId().isEmpty()) return;
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                imageViewPoster.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (movie.getVideoId().isEmpty()) return;
 
-                    Intent i = new Intent(context, MovieTrailerActivity.class);
-                    i.putExtra("videoId", movie.getVideoId());
-                    context.startActivity(i);
-                }
-            });
+                        Intent i = new Intent(context, MovieTrailerActivity.class);
+                        i.putExtra("videoId", movie.getVideoId());
+                        context.startActivity(i);
+                    }
+                });
+            }
         }
 
         @Override
