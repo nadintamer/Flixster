@@ -32,6 +32,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     Movie movie;
     ActivityMovieDetailsBinding binding;
+    Integer position;
 
     public static final String VIDEO_URL = "https://api.themoviedb.org/3/movie/%s/videos";
 
@@ -44,12 +45,14 @@ public class MovieDetailsActivity extends AppCompatActivity {
         setContentView(view);
 
         movie = Parcels.unwrap(getIntent().getParcelableExtra(Movie.class.getSimpleName()));
+        position = getIntent().getExtras().getInt("position");
 
         binding.textViewTitle.setText(movie.getTitle());
         binding.textViewDate.setText(movie.getFormattedReleaseDate());
         binding.textViewNumVotes.setText(String.format("(%s)", movie.getNumVotes()));
         binding.textViewOverview.setText(movie.getOverview());
         binding.textViewGenres.setText(movie.getGenreString());
+        binding.buttonFavorite.setTag("empty");
 
         float rating = movie.getVoteAverage().floatValue();
         binding.ratingBarScore.setRating(rating / 2.0f);
@@ -108,5 +111,45 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        binding.buttonFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleFavoriteButton();
+                movie.toggleIsFavorite();
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (movie.getIsFavorite()) {
+            binding.buttonFavorite.setImageResource(R.drawable.ic_heart_filled);
+            binding.buttonFavorite.setTag("filled");
+        } else {
+            binding.buttonFavorite.setImageResource(R.drawable.ic_heart_empty);
+            binding.buttonFavorite.setTag("empty");
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra(Movie.class.getSimpleName(), Parcels.wrap(movie));
+        intent.putExtra("position", position);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    void toggleFavoriteButton() {
+        if (binding.buttonFavorite.getTag() == "filled") {
+            binding.buttonFavorite.setImageResource(R.drawable.ic_heart_empty);
+            binding.buttonFavorite.setTag("empty");
+        } else {
+            binding.buttonFavorite.setImageResource(R.drawable.ic_heart_filled);
+            binding.buttonFavorite.setTag("filled");
+        }
     }
 }

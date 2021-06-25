@@ -303,8 +303,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_play_icon" />
-                            <entry key="sourceFile" value="$PROJECT_DIR$/app/src/main/res/drawable/play_icon.svg" />
+                            <entry key="outputName" value="ic_heart_empty" />
+                            <entry key="sourceFile" value="$PROJECT_DIR$/app/src/main/res/drawable/heart-empty.svg" />
                           </map>
                         </option>
                       </PersistentState>

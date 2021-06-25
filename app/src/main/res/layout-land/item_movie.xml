@@ -27,6 +27,17 @@
         android:alpha="0.7"
         tools:srcCompat="@tools:sample/avatars" />
 
+    <ImageView
+        android:id="@+id/imageViewFavorite"
+        android:background="@null"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginVertical="10dp"
+        app:srcCompat="@drawable/ic_heart_filled" />
+
     <TextView
         android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"

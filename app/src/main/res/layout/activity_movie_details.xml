@@ -41,12 +41,12 @@
 
         <TextView
             android:id="@+id/textViewTitle"
-            android:textColor="@color/white"
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imageViewPoster"
             android:layout_marginStart="20dp"
             android:layout_marginTop="0dp"
+            android:textColor="@color/white"
             android:textSize="30dp"
             android:textStyle="bold"
             tools:text="Luca" />
@@ -114,6 +114,16 @@
             android:textColor="@color/light_grey"
             tools:text="Genres: Children's, Animation" />
 
+        <ImageButton
+            android:id="@+id/buttonFavorite"
+            android:src="@drawable/ic_heart_empty"
+            android:background="@null"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignTop="@id/textViewTitle"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            tools:srcCompat="@tools:sample/avatars" />
 
     </RelativeLayout>
 </ScrollView>

@@ -29,6 +29,7 @@ public class Movie {
     Integer id;
     Integer numVotes;
     List<String> genres;
+    Boolean isFavorite;
     static Map<Integer, String> genreMap = new HashMap<>();
 
     public Movie() {}
@@ -49,6 +50,8 @@ public class Movie {
             String genre = genreMap.get(genreIds.get(i));
             genres.add(genre);
         }
+
+        isFavorite = false;
     }
 
     public static List<Movie> fromJsonArray(JSONArray movieJsonArray) throws JSONException {
@@ -81,6 +84,10 @@ public class Movie {
         }
     }
 
+    public void toggleIsFavorite() {
+        isFavorite = !isFavorite;
+    }
+
     public String getPosterPath() {
         return String.format("https://image.tmdb.org/t/p/w342/%s", posterPath);
     }
@@ -104,9 +111,7 @@ public class Movie {
     public String getFormattedReleaseDate() {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            Log.d("Movie", releaseDate);
             Date result =  df.parse(releaseDate);
-            Log.d("Movie", result.toString());
             SimpleDateFormat written = new SimpleDateFormat("MMMM d, yyyy");
             return written.format(result);
         } catch (ParseException e) {
@@ -131,5 +136,9 @@ public class Movie {
 
     public String getGenreString() {
         return String.format("Genres: %s", TextUtils.join(", ", genres));
+    }
+
+    public Boolean getIsFavorite() {
+        return isFavorite;
     }
 }

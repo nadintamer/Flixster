@@ -1,8 +1,10 @@
 package com.example.flixster.activities;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +22,7 @@ import androidx.appcompat.widget.Toolbar;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,13 +48,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(view);
         setSupportActionBar(binding.toolbar);
 
-        movies = new ArrayList<>();
+        if (savedInstanceState != null) {
+            movies = Parcels.unwrap(savedInstanceState.getParcelable("movieData"));
+        } else {
+            movies = new ArrayList<>();
+            fetchMovies();
+        }
+
         movieAdapter = new MovieAdapter(this, movies);
 
         binding.recyclerViewMovies.setAdapter(movieAdapter);
         binding.recyclerViewMovies.setLayoutManager(new LinearLayoutManager(this));
 
-        fetchMovies();
         fetchGenres();
     }
 
@@ -74,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.d("MainActivity", "onFailure");
+                Log.d(TAG, "onFailure");
             }
         });
     }
@@ -102,5 +110,22 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("MainActivity", "onFailure");
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 20 && resultCode == RESULT_OK) {
+            Integer position = data.getExtras().getInt("position");
+            Movie newMovie = Parcels.unwrap(data.getParcelableExtra(Movie.class.getSimpleName()));
+            movies.set(position, newMovie);
+            movieAdapter.notifyItemChanged(position);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("movieData", Parcels.wrap(movies));
     }
 }

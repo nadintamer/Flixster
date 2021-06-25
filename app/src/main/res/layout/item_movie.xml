@@ -45,4 +45,15 @@
         android:ellipsize="end"
         android:maxLines="6"
         tools:text="Luca and his best friend Alberto experience an unforgettable summer on the Italian Riviera. But all the fun is threatened by a deeply-held secret: they are sea monsters from another world just below the water’s surface." />
+
+    <ImageView
+        android:id="@+id/imageViewFavorite"
+        android:background="@null"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginVertical="10dp"
+        app:srcCompat="@drawable/ic_heart_filled" />
 </RelativeLayout>

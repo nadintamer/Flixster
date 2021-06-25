@@ -1,5 +1,6 @@
 package com.example.flixster.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -67,6 +68,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
         ImageView imageViewPoster;
         ImageView imageViewPlay;
+        ImageView imageViewFavorite;
         TextView textViewTitle;
         TextView textViewOverview;
 
@@ -74,6 +76,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             super(itemView);
             imageViewPoster = itemView.findViewById(R.id.imageViewPoster);
             imageViewPlay = itemView.findViewById(R.id.imageViewPlay);
+            imageViewFavorite = itemView.findViewById(R.id.imageViewFavorite);
             textViewTitle = itemView.findViewById(R.id.textViewTitle);
             textViewOverview = itemView.findViewById(R.id.textViewOverview);
             itemView.setOnClickListener(this);
@@ -91,6 +94,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             } else {
                 imageUrl = movie.getPosterPath();
                 placeholder = R.drawable.flicks_movie_placeholder;
+            }
+
+            if (movie.getIsFavorite()) {
+                imageViewFavorite.setVisibility(View.VISIBLE);
+            } else {
+                imageViewFavorite.setVisibility(View.INVISIBLE);
             }
 
             int radius = 30;
@@ -151,7 +160,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             Movie movie = movies.get(position);
             Intent i = new Intent(context, MovieDetailsActivity.class);
             i.putExtra(Movie.class.getSimpleName(), Parcels.wrap(movie));
-            context.startActivity(i);
+            i.putExtra("position", position);
+            ((Activity) context).startActivityForResult(i, 20);
         }
     }
 }
