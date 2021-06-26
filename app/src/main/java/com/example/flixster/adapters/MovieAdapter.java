@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.flixster.R;
 import com.example.flixster.activities.MovieDetailsActivity;
 import com.example.flixster.activities.MovieTrailerActivity;
+import com.example.flixster.databinding.ItemMovieBinding;
 import com.example.flixster.models.Movie;
 
 import org.jetbrains.annotations.NotNull;
@@ -49,8 +51,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        View movieView = LayoutInflater.from(context).inflate(R.layout.item_movie, parent, false);
-        return new ViewHolder(movieView);
+        ItemMovieBinding binding = ItemMovieBinding.inflate(LayoutInflater.from(context), parent, false);
+        return new ViewHolder(binding);
     }
 
     @Override
@@ -66,25 +68,17 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        ImageView imageViewPoster;
-        ImageView imageViewPlay;
-        ImageView imageViewFavorite;
-        TextView textViewTitle;
-        TextView textViewOverview;
+        ItemMovieBinding binding;
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            imageViewPoster = itemView.findViewById(R.id.imageViewPoster);
-            imageViewPlay = itemView.findViewById(R.id.imageViewPlay);
-            imageViewFavorite = itemView.findViewById(R.id.imageViewFavorite);
-            textViewTitle = itemView.findViewById(R.id.textViewTitle);
-            textViewOverview = itemView.findViewById(R.id.textViewOverview);
-            itemView.setOnClickListener(this);
+        public ViewHolder(@NonNull ItemMovieBinding itemMovieBinding) {
+            super(itemMovieBinding.getRoot());
+            this.binding = itemMovieBinding;
+            binding.getRoot().setOnClickListener(this);
         }
 
         public void bind(Movie movie) {
-            textViewTitle.setText(movie.getTitle());
-            textViewOverview.setText(movie.getOverview());
+            binding.textViewTitle.setText(movie.getTitle());
+            binding.textViewOverview.setText(movie.getOverview());
 
             // Determine if image should be poster or backdrop, depending on orientation
             String imageUrl;
@@ -100,9 +94,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
             // Show heart icon if movie is favorited
             if (movie.getIsFavorite()) {
-                imageViewFavorite.setVisibility(View.VISIBLE);
+                binding.imageViewFavorite.setVisibility(View.VISIBLE);
             } else {
-                imageViewFavorite.setVisibility(View.INVISIBLE);
+                binding.imageViewFavorite.setVisibility(View.INVISIBLE);
             }
 
             int radius = 30;
@@ -111,7 +105,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                     .centerCrop()
                     .transform(new RoundedCorners(radius))
                     .placeholder(placeholder)
-                    .into(imageViewPoster);
+                    .into(binding.imageViewPoster);
 
             // If in landscape mode, fetch video ID to set up YouTube player
             if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -129,7 +123,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                                 JSONArray results = jsonObject.getJSONArray("results");
                                 movie.setVideoId(Movie.getFirstVideoKey(results));
                                 if (!movie.getVideoId().isEmpty()) {
-                                    imageViewPlay.setImageResource(R.drawable.ic_play_icon);
+                                    binding.imageViewPlay.setImageResource(R.drawable.ic_play_icon);
                                 }
                             } catch (JSONException e) {
                                 Log.d("MovieDetailsActivity", "JSON Exception", e);
@@ -142,10 +136,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                         }
                     });
                 } else { // videoId has already been fetched
-                    imageViewPlay.setImageResource(R.drawable.ic_play_icon);
+                    binding.imageViewPlay.setImageResource(R.drawable.ic_play_icon);
                 }
 
-                imageViewPoster.setOnClickListener(new View.OnClickListener() {
+                binding.imageViewPoster.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (movie.getVideoId().isEmpty()) return;
