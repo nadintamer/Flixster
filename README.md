@@ -35,7 +35,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='https://i.imgur.com/9uEVPPw.gif' title='Flixster Portrait Walkthrough' width='' alt='Flixster Portrait Walkthrough' />
+<img src='https://i.imgur.com/e1SXeth.gif' title='Flixster Portrait Walkthrough' width='' alt='Flixster Portrait Walkthrough' />
 <img src='https://i.imgur.com/QJKgFAO.gif' title='Flixster Landscape Walkthrough' width='' alt='Flixster Landscape Walkthrough' />
 
 GIF created with [LICEcap](https://www.cockos.com/licecap/).
