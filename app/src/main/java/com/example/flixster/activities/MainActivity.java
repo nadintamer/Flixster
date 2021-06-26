@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     JSONArray results = jsonObject.getJSONArray("results");
                     movies.addAll(Movie.fromJsonArray(results));
+                    Collections.sort(movies);
                     movieAdapter.notifyDataSetChanged();
                     fetchAllCasts(); // fetch cast for each movie
                 } catch (JSONException e) {
@@ -175,6 +176,9 @@ public class MainActivity extends AppCompatActivity {
             movies.set(position, newMovie);
             Collections.sort(movies);
             movieAdapter.notifyDataSetChanged();
+            if (newMovie.getIsFavorite()) {
+                binding.recyclerViewMovies.scrollToPosition(0);
+            }
         }
     }
 
