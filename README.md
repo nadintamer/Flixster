@@ -4,6 +4,15 @@
 
 Time spent: **15** hours spent in total
 
+## Video Walkthrough
+
+Here's a walkthrough of implemented user stories:
+
+<img src='https://i.imgur.com/e1SXeth.gif' title='Flixster Portrait Walkthrough' width='' alt='Flixster Portrait Walkthrough' />
+<img src='https://i.imgur.com/QJKgFAO.gif' title='Flixster Landscape Walkthrough' width='' alt='Flixster Landscape Walkthrough' />
+
+GIF created with [LICEcap](https://www.cockos.com/licecap/).
+
 ## User Stories
 
 The following **required** functionality is completed:
@@ -30,15 +39,6 @@ The following **additional** features are implemented:
 * [X] User can mark movies as favorites, and they persist after app restart
 * [X] Movies marked as favorites appear at the beginning of the list
 * [X] User can view additional information about the movie like release date, genres, cast, and number of votes
-
-## Video Walkthrough
-
-Here's a walkthrough of implemented user stories:
-
-<img src='https://i.imgur.com/e1SXeth.gif' title='Flixster Portrait Walkthrough' width='' alt='Flixster Portrait Walkthrough' />
-<img src='https://i.imgur.com/QJKgFAO.gif' title='Flixster Landscape Walkthrough' width='' alt='Flixster Landscape Walkthrough' />
-
-GIF created with [LICEcap](https://www.cockos.com/licecap/).
 
 ## Notes
 
